@@ -22,11 +22,18 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create non-root user and set up logging directory
+RUN adduser --disabled-password --gecos '' appuser && \
+    mkdir -p /app/logs && \
+    chown -R appuser:appuser /app
+
 # Copy application code
 COPY . .
 
-# Create non-root user
-RUN adduser --disabled-password --gecos '' appuser
+# Set permissions for the entire app directory
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
 USER appuser
 
 # Expose port

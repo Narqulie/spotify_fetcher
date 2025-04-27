@@ -13,11 +13,12 @@ dotenv.load_dotenv()
 
 # Configure logging
 logger.add(
-    "spotify_fetcher.log",
+    "/app/logs/spotify_fetcher.log",
     rotation="10 MB",
     retention="1 week",
     level="INFO",
     format="{time} {level} {message}",
+    enqueue=True  # Thread-safe logging
 )
 
 # Verify required environment variables
